@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl1_tlrl"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cl2_tlrl"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv1_tlrl"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="20dp"
+            android:textSize="18sp"
+            android:textColor="@color/navy"
+            android:textStyle="bold"
+            tools:text="COVISHIELD"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv2_tlrl"
+            app:layout_constraintTop_toBottomOf="@+id/tv3_tlrl"
+            app:layout_constraintStart_toStartOf="@+id/tv1_tlrl"
+
+            android:textSize="14sp"
+            android:textColor="@color/blue"
+            android:text="DOSE 1"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv10_tlrl"
+            app:layout_constraintTop_toBottomOf="@+id/tv3_tlrl"
+            app:layout_constraintStart_toEndOf="@+id/tv2_tlrl"
+            android:layout_marginStart="20dp"
+            android:textSize="14sp"
+            android:textColor="@color/blue"
+            android:text="DOSE 2"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv9_tlrl"
+            app:layout_constraintTop_toBottomOf="@+id/tv6_tlrl"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="5dp"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            tools:text="9am to 5pm"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv3_tlrl"
+            app:layout_constraintTop_toBottomOf="@+id/tv1_tlrl"
+            app:layout_constraintStart_toStartOf="@+id/tv2_tlrl"
+            app:layout_constraintEnd_toEndOf="@+id/tv2_tlrl"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/green"
+            tools:text="599"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv11_tlrl"
+            app:layout_constraintTop_toBottomOf="@+id/tv1_tlrl"
+            app:layout_constraintStart_toStartOf="@+id/tv10_tlrl"
+            app:layout_constraintEnd_toEndOf="@+id/tv10_tlrl"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/green"
+            tools:text="599"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv6_tlrl"
+            app:layout_constraintTop_toTopOf="@+id/tv3_tlrl"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:text="Service Fee"
+            android:textColor="@color/red"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="20dp"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv4_tlrl"
+            app:layout_constraintTop_toBottomOf="@+id/tv2_tlrl"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:text="Cash collected"
+            android:layout_marginTop="2dp"
+            app:layout_constraintStart_toStartOf="@+id/tv1_tlrl"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="20dp"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv8_tlrl"
+            app:layout_constraintTop_toBottomOf="@+id/tv4_tlrl"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:text="Service Fee Balance"
+            android:layout_marginTop="2dp"
+            app:layout_constraintStart_toStartOf="@+id/tv1_tlrl"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="20dp"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/view1_tlrl"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@+id/cl2_tlrl"
+        android:background="@color/black"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>
