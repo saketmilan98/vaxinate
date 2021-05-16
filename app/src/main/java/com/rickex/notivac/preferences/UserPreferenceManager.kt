@@ -24,6 +24,7 @@ object UserPreferenceManager {
     private const val SELECTED_DISTRICTID = "selected_districtid"
     private const val SELECTED_FILTER_DISTRICT_PINCODE = "selected_districtpincode"
     private const val SELECTED_PINCODE = "selected_pincode"
+    private const val SELECTED_DOSE = "selected_dose"
 
     private fun init(mContext: Context) {
         mSharedPreferences = mContext.getSharedPreferences(
@@ -367,6 +368,28 @@ object UserPreferenceManager {
         }
         val mShEditor = mSharedPreferences!!.edit()
         mShEditor.putString(SELECTED_PINCODE, mSelectedPincode)
+        mShEditor.commit()
+    }
+
+    fun getSelectedDose(mContext: Context): String? {
+        var mSelectedDose: String? = ""
+        if (mSharedPreferences == null) {
+            init(mContext)
+        }
+        mSelectedDose =
+            mSharedPreferences!!.getString(SELECTED_DOSE, "DOSE1 AND DOSE2")
+        return mSelectedDose
+    }
+
+    fun setSelectedDose(
+        mContext: Context,
+        mSelectedDose: String?
+    ) {
+        if (mSharedPreferences == null) {
+            init(mContext)
+        }
+        val mShEditor = mSharedPreferences!!.edit()
+        mShEditor.putString(SELECTED_DOSE, mSelectedDose)
         mShEditor.commit()
     }
 

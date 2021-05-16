@@ -116,7 +116,8 @@ class PreviewActivity : AppCompatActivity() {
     fun filterResponse(){
         filteredResponse = originalResponse.filter { s -> UserPreferenceManager.getSelectedAge(this).toString().contains(
             s.min_age_limit.toString()
-        ) && UserPreferenceManager.getSelectedVaccine(this).toString().contains(s.vaccine)} as ArrayList<Session>
+        ) && UserPreferenceManager.getSelectedVaccine(this).toString().contains(s.vaccine)
+        && Tools().returnDose(s.available_capacity_dose1, s.available_capacity_dose2, this)} as ArrayList<Session>
     }
 
     override fun onDestroy() {

@@ -31,6 +31,7 @@ class PreviewRvAdapter(val dataa: ArrayList<Session>, val context: Context?) : a
         holder.textView.text = dataa[position].vaccine
         holder.textView1.text = dataa[position].available_capacity_dose1.toString()
         holder.textView6.text = dataa[position].available_capacity_dose2.toString()
+        holder.textView7.text = dataa[position].available_capacity.toString()
         if(position%2==0) {
             holder.constraintL1.setBackgroundColor(Color.parseColor("#f6f6f6"))
         }
@@ -44,7 +45,7 @@ class PreviewRvAdapter(val dataa: ArrayList<Session>, val context: Context?) : a
             holder.textView2.text = "Age: 45+"
         }
         holder.textView3.text = dataa[position].name
-        holder.textView4.text = dataa[position].address + ", ${dataa[position].state_name}, ${dataa[position].district_name}, ${dataa[position].pincode}"
+        holder.textView4.text = dataa[position].address + ", ${dataa[position].district_name}, ${dataa[position].state_name}, ${dataa[position].pincode}"
         //holder.textView5.text = "${Tools().getFormattedTime(dataa[position].from)}-${Tools().getFormattedTime(dataa[position].to)}"
         holder.itemView.setOnClickListener {
             val uri = Uri.parse("https://selfregistration.cowin.gov.in/")
@@ -62,6 +63,7 @@ class PreviewRvAdapter(val dataa: ArrayList<Session>, val context: Context?) : a
         val textView4 = view.findViewById<TextView>(R.id.tv8_tlrl)
         val textView5 = view.findViewById<TextView>(R.id.tv9_tlrl)
         val textView6 = view.findViewById<TextView>(R.id.tv11_tlrl)
+        val textView7 = view.findViewById<TextView>(R.id.tv13_tlrl)
         val constraintL1 = view.findViewById<ConstraintLayout>(R.id.cl1_tlrl)
         //val textView2 = view.findViewById<TextView>(R.id.textView2)
     }

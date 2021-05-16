@@ -55,6 +55,18 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/tv12_tlrl"
+            app:layout_constraintTop_toBottomOf="@+id/tv3_tlrl"
+            app:layout_constraintStart_toEndOf="@+id/tv10_tlrl"
+            android:layout_marginStart="20dp"
+            android:textSize="14sp"
+            android:textColor="@color/blue"
+            android:text="TOTAL"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/tv9_tlrl"
             app:layout_constraintTop_toBottomOf="@+id/tv6_tlrl"
             app:layout_constraintEnd_toEndOf="parent"
@@ -92,6 +104,19 @@
             />
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv13_tlrl"
+            app:layout_constraintTop_toBottomOf="@+id/tv1_tlrl"
+            app:layout_constraintStart_toStartOf="@+id/tv12_tlrl"
+            app:layout_constraintEnd_toEndOf="@+id/tv12_tlrl"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/green"
+            tools:text="599"
+            />
+
+        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/tv6_tlrl"
@@ -116,6 +141,7 @@
             app:layout_constraintStart_toStartOf="@+id/tv1_tlrl"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="20dp"
+            android:textColor="@color/black"
             />
 
         <TextView
@@ -130,6 +156,7 @@
             app:layout_constraintStart_toStartOf="@+id/tv1_tlrl"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="20dp"
+            android:textColor="@color/black"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

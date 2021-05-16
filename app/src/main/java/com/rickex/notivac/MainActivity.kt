@@ -110,6 +110,7 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         setupAgeBtn()
         setupVaccineBtn()
         setupFilterDistrictOrPincodeBtn()
+        setupDoseBtn()
         tv1_actmain.text = UserPreferenceManager.getSelectedState(this)
         tv2_actmain.text = UserPreferenceManager.getSelectedDistrict(this)
         et1_cl6_actmain.setText(UserPreferenceManager.getSelectedPincode(this))
@@ -260,6 +261,54 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         }
         else if(UserPreferenceManager.getSelectedVaccine(this).toString() == "COVISHIELD"){
             tv4_cl1_actmain.performClick()
+        }
+    }
+
+    fun setupDoseBtn(){
+        tv1_cl7_actmain.setOnClickListener {
+            tv1_cl7_actmain.setTextColor(Color.WHITE)
+            tv1_cl7_actmain.background = ResourcesCompat.getDrawable(resources, R.drawable.radio_high_solid,  theme)
+
+            tv2_cl7_actmain.setTextColor(ResourcesCompat.getColor(resources, R.color.workinprogress, theme))
+            tv2_cl7_actmain.background = ResourcesCompat.getDrawable(resources, R.drawable.radio_black_prior,  theme)
+
+            tv4_cl7_actmain.setTextColor(ResourcesCompat.getColor(resources, R.color.workinprogress, theme))
+            tv4_cl7_actmain.background = ResourcesCompat.getDrawable(resources, R.drawable.radio_black_prior,  theme)
+            UserPreferenceManager.setSelectedDose(this,"DOSE1 AND DOSE2")
+        }
+
+        tv2_cl7_actmain.setOnClickListener {
+            tv1_cl7_actmain.setTextColor(ResourcesCompat.getColor(resources, R.color.workinprogress, theme))
+            tv1_cl7_actmain.background = ResourcesCompat.getDrawable(resources, R.drawable.radio_black_prior,  theme)
+
+            tv2_cl7_actmain.setTextColor(Color.WHITE)
+            tv2_cl7_actmain.background = ResourcesCompat.getDrawable(resources, R.drawable.radio_high_solid,  theme)
+
+            tv4_cl7_actmain.setTextColor(ResourcesCompat.getColor(resources, R.color.workinprogress, theme))
+            tv4_cl7_actmain.background = ResourcesCompat.getDrawable(resources, R.drawable.radio_black_prior,  theme)
+            UserPreferenceManager.setSelectedDose(this,"DOSE1")
+        }
+
+        tv4_cl7_actmain.setOnClickListener {
+            tv1_cl7_actmain.setTextColor(ResourcesCompat.getColor(resources, R.color.workinprogress, theme))
+            tv1_cl7_actmain.background = ResourcesCompat.getDrawable(resources, R.drawable.radio_black_prior,  theme)
+
+            tv2_cl7_actmain.setTextColor(ResourcesCompat.getColor(resources, R.color.workinprogress, theme))
+            tv2_cl7_actmain.background = ResourcesCompat.getDrawable(resources, R.drawable.radio_black_prior,  theme)
+
+            tv4_cl7_actmain.setTextColor(Color.WHITE)
+            tv4_cl7_actmain.background = ResourcesCompat.getDrawable(resources, R.drawable.radio_high_solid,  theme)
+            UserPreferenceManager.setSelectedDose(this,"DOSE2")
+        }
+
+        if(UserPreferenceManager.getSelectedDose(this).toString() == "DOSE1 AND DOSE2"){
+            tv1_cl7_actmain.performClick()
+        }
+        else if(UserPreferenceManager.getSelectedDose(this).toString() == "DOSE1"){
+            tv2_cl7_actmain.performClick()
+        }
+        else if(UserPreferenceManager.getSelectedDose(this).toString() == "DOSE2"){
+            tv4_cl7_actmain.performClick()
         }
     }
 

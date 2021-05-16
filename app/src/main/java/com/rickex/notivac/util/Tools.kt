@@ -9,6 +9,7 @@ import com.rickex.notivac.adapter.PreviewRvAdapter
 import com.rickex.notivac.dataclass.MainResponseDataClas
 import com.rickex.notivac.dataclass.Session
 import com.tcp.rickexdriver.network.apiKotlin
+import com.tcp.rickexuser.preferences.UserPreferenceManager
 import kotlinx.android.synthetic.main.activity_preview.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -81,5 +82,18 @@ class Tools {
         }
         return numeric
 
+    }
+    fun returnDose(dose1 : Int, dose2 : Int, context : Context) : Boolean{
+        var result = false
+        if(UserPreferenceManager.getSelectedDose(context).toString() == "DOSE1 AND DOSE2"){
+            result = true
+        }
+        else if(UserPreferenceManager.getSelectedDose(context).toString() == "DOSE1"){
+            result = dose1 != 0
+        }
+        else if(UserPreferenceManager.getSelectedDose(context).toString() == "DOSE2"){
+            result = dose2 != 0
+        }
+        return result
     }
 }

@@ -23,6 +23,8 @@
     <color name="navy">#000080</color>
     <color name="black">#000000</color>
 
+    <color name="quantum_grey800">#424242</color>
+
     <color name="high">#ff2137</color>
     <color name="workinprogress">#bf313131</color>
 </resources>
