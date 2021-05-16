@@ -1,4 +1,4 @@
-package com.tcp.rickexuser.preferences
+package com.rickex.notivac.preferences
 
 import android.content.Context
 import android.content.SharedPreferences

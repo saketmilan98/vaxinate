@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:showIn="navigation_view">
+
+    <group
+        android:id="@+id/gp1"
+        android:checkableBehavior="single">
+        <item
+            android:icon="@drawable/ic_baseline_share_24_black"
+            android:id="@+id/nav_share"
+            android:title="Share App"/>
+    </group>
+
+    <group
+        android:id="@+id/gp2"
+        android:checkableBehavior="single">
+        <item
+            android:icon="@drawable/ic_baseline_notifications_none_24"
+            android:id="@+id/nav_notifier"
+            android:visible="false"
+            android:title="Get Instant Slot Notification"/>
+    </group>
+
+    <group
+        android:id="@+id/gp3"
+        android:checkableBehavior="single">
+        <item
+            android:icon="@drawable/ic_baseline_policy_24"
+            android:id="@+id/nav_privacy"
+            android:title="Privacy Policy"/>
+    </group>
+
+
+</menu>

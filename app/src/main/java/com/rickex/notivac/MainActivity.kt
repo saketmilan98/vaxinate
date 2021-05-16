@@ -1,36 +1,42 @@
 package com.rickex.notivac
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
-import android.widget.DatePicker
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.navigation.NavigationView
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.rickex.notivac.adapter.DistrictRVAdapter
-import com.rickex.notivac.adapter.PreviewRvAdapter
 import com.rickex.notivac.adapter.StateRVAdapter
 import com.rickex.notivac.dataclass.*
 import com.rickex.notivac.network.ApiClient2
 import com.rickex.notivac.util.Tools
 import com.tcp.rickexdriver.network.apiKotlin
-import com.tcp.rickexuser.preferences.UserPreferenceManager
+import com.rickex.notivac.preferences.UserPreferenceManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_preview.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.SimpleDateFormat
 import java.util.*
 
-class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
+class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, NavigationView.OnNavigationItemSelectedListener {
 
     var day = 0
     var month:Int = 0
@@ -44,9 +50,33 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     var myMinute:Int = 0
     var choosenDate = ""
 
+    var fDatabase = FirebaseDatabase.getInstance().reference.child(Tools().decodePassword(com.rickex.notivac.BuildConfig.APP_KEY_1)).child("adminValues")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        if(intent.getBooleanExtra("fromNoti",false)){
+            //intent.putExtra("notiType",notiType)
+            //intent.putExtra("notiUrl",notiUrl)
+            if(intent.getStringExtra("notiType") == "2"){
+                val uri = Uri.parse("${intent.getStringExtra("notiUrl")}")
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                startActivity(intent)
+                finish()
+            }
+            else {
+                initialMethods()
+            }
+        }
+        else {
+            initialMethods()
+        }
+
+    }
+
+    fun initialMethods(){
+        fetchFirebaseValue()
         initial()
         bt1_actmain.setOnClickListener{
 
@@ -105,6 +135,54 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
             openDateChooser()
         }
 
+        nav_view.setNavigationItemSelectedListener(this)
+
+        val mDrawerToggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(
+            this@MainActivity, drawer_layout, null, R.string.app_name, R.string.app_name
+        ) {
+            override fun onDrawerClosed(drawerView: View) {
+                super.onDrawerClosed(drawerView)
+
+            }
+
+            override fun onDrawerOpened(drawerView: View) {
+                super.onDrawerOpened(drawerView)
+
+
+            }
+        }
+        drawer_layout.addDrawerListener(mDrawerToggle)
+        topToolbar_actmain.setNavigationOnClickListener{
+            drawer_layout.openDrawer(GravityCompat.START)
+        }
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        // Handle navigation view item clicks here.
+        when (item.itemId) {
+            R.id.nav_share -> {
+                val shareBody = ("Check realtime vaccine slot availability, download Vaxinate app now through this link https://rebrand.ly/vaxinate .")
+                val shareIntent = Intent(Intent.ACTION_SEND)
+                shareIntent.type = "text/plain"
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Vaxinate")
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareBody)
+                startActivity(shareIntent)
+            }
+
+            R.id.nav_privacy -> {
+                val uri = Uri.parse("https://rebrand.ly/vaxinateprivacypolicy")
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                startActivity(intent)
+            }
+
+            R.id.nav_notifier -> {
+                val uri = Uri.parse("https://rebrand.ly/vaxinatenotifierlink")
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                startActivity(intent)
+            }
+        }
+        drawer_layout.closeDrawer(GravityCompat.START)
+        return true
     }
     fun initial(){
         setupAgeBtn()
@@ -454,6 +532,102 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
             }
         })
+    }
+
+    fun fetchFirebaseValue(){
+        fDatabase.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    if(snapshot.child("app_online").value.toString().toBoolean()){
+
+                        nav_view.menu.findItem(R.id.nav_notifier).isVisible =
+                            snapshot.child("show_notifier_feature").value.toString().toBoolean()
+
+                        checkForUpdate(snapshot.child("usable_version_flexible_user").value.toString().toLong(),
+                            snapshot.child("usable_version_immediate_user").value.toString().toLong(),
+                            snapshot.child("flexible_update_message").value.toString(),
+                            snapshot.child("immediate_update_message").value.toString())
+                    }
+                    else {
+                        Tools().showAlertDialogWithExitButton(snapshot.child("app_offline_message").value.toString(),this@MainActivity)
+                    }
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+        Tools().subscribeToUserGeneralTopic()
+    }
+
+    fun checkForUpdate(usableVersionFlexible : Long, usableVersionImmediate: Long, flexibleUpdateMessage : String, immediateUpdateMessage : String){
+        if (!(usableVersionImmediate <= com.rickex.notivac.BuildConfig.VERSION_CODE || usableVersionImmediate == 0L)
+        ) {
+            showImmediateUpdateDialog(immediateUpdateMessage)
+        } else if (!(usableVersionFlexible <= com.rickex.notivac.BuildConfig.VERSION_CODE || usableVersionFlexible == 0L)
+        ) {
+            showFlexibleUpdateDialog(flexibleUpdateMessage)
+        }
+    }
+
+    fun showFlexibleUpdateDialog(desc : String){
+        val builder = AlertDialog.Builder(this)
+        //set title for alert dialog
+        builder.setTitle("Alert")
+        //set message for alert dialog
+        builder.setMessage(desc)
+        builder.setIcon(android.R.drawable.ic_dialog_alert)
+
+        //performing positive action
+        builder.setPositiveButton("Update"){dialogInterface, which ->
+            val uri = Uri.parse("https://rebrand.ly/vaxinate")
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(intent)
+        }
+        //performing cancel action
+        /*builder.setNeutralButton("Cancel"){dialogInterface , which ->
+            Toast.makeText(this,"clicked cancel\n operation cancel",Toast.LENGTH_LONG).show()
+        }*/
+        //performing negative action
+        builder.setNegativeButton("Not now"){dialogInterface, which ->
+
+        }
+        // Create the AlertDialog
+        val alertDialog: AlertDialog = builder.create()
+        // Set other dialog properties
+        alertDialog.setCancelable(false)
+        alertDialog.show()
+    }
+    fun showImmediateUpdateDialog(desc : String){
+        val builder = AlertDialog.Builder(this)
+        //set title for alert dialog
+        builder.setTitle("Alert")
+        //set message for alert dialog
+        builder.setMessage(desc)
+        builder.setIcon(android.R.drawable.ic_dialog_alert)
+
+        //performing positive action
+        builder.setPositiveButton("Update"){dialogInterface, which ->
+            val uri = Uri.parse("https://rebrand.ly/vaxinate")
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(intent)
+            finish()
+        }
+        //performing cancel action
+        /*builder.setNeutralButton("Cancel"){dialogInterface , which ->
+            Toast.makeText(this,"clicked cancel\n operation cancel",Toast.LENGTH_LONG).show()
+        }*/
+        //performing negative action
+      /*  builder.setNegativeButton("Not now"){dialogInterface, which ->
+
+        }*/
+        // Create the AlertDialog
+        val alertDialog: AlertDialog = builder.create()
+        // Set other dialog properties
+        alertDialog.setCancelable(false)
+        alertDialog.show()
     }
 
 }

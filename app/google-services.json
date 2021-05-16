@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "99318525418",
+    "project_id": "vaxinate-ab423",
+    "storage_bucket": "vaxinate-ab423.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:99318525418:android:47422ab1f7140b34c29693",
+        "android_client_info": {
+          "package_name": "com.rickex.vaxinate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "99318525418-j3fibqlgv41t66n7r16op987pbq4fef6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rickex.vaxinate",
+            "certificate_hash": "919c9628644503dc489121fe196971750bfb1527"
+          }
+        },
+        {
+          "client_id": "99318525418-q3ji8gpi98r34pnf2178ia08h27eqtkv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6eW4bqjrMPhKL-LYtKPibR9QGPBQQ1GQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "99318525418-q3ji8gpi98r34pnf2178ia08h27eqtkv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

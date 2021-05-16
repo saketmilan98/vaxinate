@@ -10,7 +10,7 @@ import com.rickex.notivac.MainActivity
 import com.rickex.notivac.R
 import com.rickex.notivac.dataclass.District
 import com.rickex.notivac.dataclass.State
-import com.tcp.rickexuser.preferences.UserPreferenceManager
+import com.rickex.notivac.preferences.UserPreferenceManager
 
 class StateRVAdapter(val dataa: ArrayList<State>, val dialog: Dialog, val context: Context?) : androidx.recyclerview.widget.RecyclerView.Adapter<StateRVAdapter.ViewHolder>() {
 

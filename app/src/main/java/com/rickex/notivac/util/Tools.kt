@@ -1,16 +1,17 @@
 package com.rickex.notivac.util
 
+import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
+import android.util.Base64
 import android.util.Log
 import android.widget.Toast
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import com.rickex.notivac.adapter.PreviewRvAdapter
 import com.rickex.notivac.dataclass.MainResponseDataClas
-import com.rickex.notivac.dataclass.Session
 import com.tcp.rickexdriver.network.apiKotlin
-import com.tcp.rickexuser.preferences.UserPreferenceManager
-import kotlinx.android.synthetic.main.activity_preview.*
+import com.rickex.notivac.preferences.UserPreferenceManager
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,6 +22,23 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class Tools {
+
+    fun decodePassword(pass : String) : String {
+        val decodedPass1 = Base64.decode(pass, Base64.DEFAULT).toString(charset("UTF-8"))
+        var decodedPass2 = ""
+        for (i in decodedPass1.indices){
+            decodedPass2 = if(i%3==0){
+                (decodedPass2 + (decodedPass1[i]-1))
+            }
+            else if (i%3==1) {
+                (decodedPass2 + (decodedPass1[i]-2))
+            }
+            else{
+                (decodedPass2 + (decodedPass1[i]-3))
+            }
+        }
+        return decodedPass2
+    }
 
     fun postNotificationAdmin(jsonObject: JsonObject, context: Context){
         Log.d("jsonObjectNoti", Gson().toJson(jsonObject))
@@ -95,5 +113,45 @@ class Tools {
             result = dose2 != 0
         }
         return result
+    }
+
+    fun showAlertDialogWithExitButton(desc : String, context: Context){
+
+        val builder = AlertDialog.Builder(context)
+        //set title for alert dialog
+        builder.setTitle("Alert")
+        //set message for alert dialog
+        builder.setMessage(desc)
+        builder.setIcon(android.R.drawable.ic_dialog_alert)
+
+        //performing positive action
+        builder.setPositiveButton("Exit"){dialogInterface, which ->
+            (context as Activity).finish()
+            //Toast.makeText(context,"clicked ok",Toast.LENGTH_LONG).show()
+        }
+        //performing cancel action
+        /*builder.setNeutralButton("Cancel"){dialogInterface , which ->
+            Toast.makeText(this,"clicked cancel\n operation cancel",Toast.LENGTH_LONG).show()
+        }
+        //performing negative action
+        builder.setNegativeButton("No"){dialogInterface, which ->
+            Toast.makeText(this,"clicked No",Toast.LENGTH_LONG).show()
+        }*/
+        // Create the AlertDialog
+        val alertDialog: AlertDialog = builder.create()
+        // Set other dialog properties
+        alertDialog.setCancelable(false)
+        alertDialog.show()
+    }
+    fun subscribeToUserGeneralTopic(){
+        FirebaseMessaging.getInstance().subscribeToTopic("general_user")
+            .addOnCompleteListener { task ->
+                //var msg = getString(R.string.msg_subscribed)
+                if (!task.isSuccessful) {
+                    //msg = getString(R.string.msg_subscribe_failed)
+                }
+                //Toast.makeText(this@Main2Activity, "msg", Toast.LENGTH_SHORT).show()
+            }
+
     }
 }

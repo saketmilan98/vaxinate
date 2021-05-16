@@ -2,7 +2,6 @@ package com.rickex.notivac.network
 
 import com.google.gson.GsonBuilder
 import com.tcp.rickexdriver.network.apiKotlin
-import com.tcp.rickexuser.preferences.UserPreferenceManager
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request

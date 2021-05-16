@@ -19,3 +19,13 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class com.rickex.notivac.adapter.**{ *; }
+-keep class com.rickex.notivac.dataclass.**{ *; }
+-keep class com.rickex.notivac.network.**{ *; }
+-keep class com.rickex.notivac.preferences.**{ *; }
+-keep class com.rickex.notivac.util.**{ *; }
+-keep class com.rickex.notivac.MainActivity.**{ *; }
+-keep class com.rickex.notivac.PreviewActivity.**{ *; }
+-keep class com.rickex.notivac.app.**{ *; }
+-keep class com.rickex.notivac.MyFirebaseMessagingService.**{ *; }
